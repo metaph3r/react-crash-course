@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-ReactCrashCourseApplication<react-crash-course>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "de.adesso.react_crash_course.ReactCrashCourseApplication",
+            "projectName": "react-crash-course",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}

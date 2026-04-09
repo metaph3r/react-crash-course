@@ -1,0 +1,22 @@
+meta {
+  name: create note
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{BASE_URL}}/v1/notes
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "note": "New note"
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

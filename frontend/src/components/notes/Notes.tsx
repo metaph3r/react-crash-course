@@ -1,10 +1,21 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Note from "./Note";
 import { Button, ButtonGroup, Grid, Input, Stack } from "@mui/material";
 
 export default function Notes() {
+    type Note = {
+        id: string,
+        note: string
+    }
+
     const [note, setNote] = useState<string>("");
     const [notes, setNotes] = useState<string[]>([]);
+
+    useEffect(() => {
+        fetch("http://localhost:8080/api/v1/notes")
+            .then(response => response.json())
+            .then(data => console.log(data));
+    })
 
     function addNote(note: string) {
         setNotes(notes.concat(note));

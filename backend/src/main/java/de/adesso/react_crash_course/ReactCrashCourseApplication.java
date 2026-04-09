@@ -9,5 +9,4 @@ public class ReactCrashCourseApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(ReactCrashCourseApplication.class, args);
 	}
-
 }

@@ -1,0 +1,9 @@
+{
+  "version": "1",
+  "name": "react-crash-course",
+  "type": "collection",
+  "ignore": [
+    "node_modules",
+    ".git"
+  ]
+}
