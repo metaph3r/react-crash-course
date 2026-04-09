@@ -1,6 +1,7 @@
 import { useState } from "react";
+import Button from "@mui/material/Button";
 
-export default function CountButton() {
+export default function Count() {
     const [count, setCount] = useState(0);
 
     function increaseCount() {
@@ -13,12 +14,12 @@ export default function CountButton() {
 
     return (
         <>
-            <button className="count-button" onClick={increaseCount}>
+            <Button onClick={increaseCount}>
                 Click me! - Current count: {count}
-            </button>
-            <button className="count-button" onClick={resetCount}>
+            </Button>
+            <Button onClick={resetCount}>
                 Reset
-            </button>
+            </Button>
         </>
     )
 }

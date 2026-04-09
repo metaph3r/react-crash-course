@@ -1,15 +1,15 @@
-import './App.css'
 import HelloWorld from './components/HelloWorld'
-import CountButton from './components/CountButton'
+import Count from './components/Count'
 import Notes from './components/notes/Notes'
+import { Container } from '@mui/material'
 
 function App() {
   return (
-    <>
+    <Container maxWidth="sm">
       <HelloWorld />
-      <CountButton />
+      <Count />
       <Notes />
-    </>
+    </Container>
   )
 }
 
