@@ -1,5 +1,7 @@
 package de.adesso.react_crash_course.note.application.mapper;
 
+import java.util.List;
+
 import org.springframework.stereotype.Component;
 
 import de.adesso.react_crash_course.note.application.dto.NoteDto;
@@ -12,7 +14,8 @@ public final class NoteMapper {
         return Note.builder()
                 .id(noteDto.getId())
                 .note(noteDto.getNote())
-                .categories(noteDto.getCategories().stream().map(CategoryMapper::toEntity).toList())
+                .categories(noteDto == null ? List.of()
+                        : noteDto.getCategories().stream().map(CategoryMapper::toEntity).toList())
                 .build();
     }
 
