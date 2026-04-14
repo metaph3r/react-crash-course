@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import { Button, ButtonGroup, Grid, Input, Paper, Stack, styled } from "@mui/material";
+import { Button, ButtonGroup, Grid, Input, Paper, Stack, styled, Checkbox, List, ListItemText, ListItem, ListItemIcon, ListItemButton, IconButton } from "@mui/material";
+import DeleteIcon from '@mui/icons-material/Delete';
 
 export default function Notes() {
     const url = "http://localhost:8080/api/v1/notes";
@@ -8,17 +9,6 @@ export default function Notes() {
         id: string,
         note: string
     }
-
-    const Item = styled(Paper)(({ theme }) => ({
-        backgroundColor: '#fff',
-        ...theme.typography.body2,
-        padding: theme.spacing(1),
-        textAlign: 'center',
-        color: (theme.vars ?? theme).palette.text.secondary,
-        ...theme.applyStyles('dark', {
-            backgroundColor: '#1A2027',
-        }),
-    }));
 
     const [note, setNote] = useState<Note>({ id: "", note: "" });
     const [notes, setNotes] = useState<Note[]>([]);
@@ -40,11 +30,17 @@ export default function Notes() {
         <>
             <Grid container spacing={2} sx={{ justifyContent: "center" }}>
                 <Grid size={12}>
-                    <Stack spacing={1}>
-                        {notes.map(note => (<Item key={note.id} id={note.id}>{note.note}</Item>))}
-                    </Stack>
-                </Grid>
-                <Grid size={12}>
+                    <List>
+                        {notes.map(note => (
+                            <ListItem key={note.id} secondaryAction={
+                                <IconButton id={note.id} edge="end" aria-label="delete" onClick={(e) => console.log("Delete note " + e.currentTarget.id)}>
+                                    <DeleteIcon />
+                                </IconButton>
+                            }>
+                                <ListItemText>{note.note}</ListItemText>
+                            </ListItem>
+                        ))}
+                    </List>
                     <Input name="note" placeholder="Note" fullWidth={true} value={note.note} onChange={(e) => setNote({ id: e.target.id, note: e.target.value })} onKeyUp={(e) => {
                         if (e.key == "Enter") addNote(note.note)
                     }} />
