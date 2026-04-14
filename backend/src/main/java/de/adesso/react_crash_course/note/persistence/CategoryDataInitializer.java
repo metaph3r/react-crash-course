@@ -1,11 +1,10 @@
-package de.adesso.react_crash_course.note.infrastructure.init;
+package de.adesso.react_crash_course.note.persistence;
 
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
 
 import de.adesso.react_crash_course.note.domain.Category;
-import de.adesso.react_crash_course.note.persistence.CategoryRepository;
 
 @Component
 public class CategoryDataInitializer implements ApplicationRunner {
