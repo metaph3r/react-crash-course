@@ -17,11 +17,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @RestController
 @RequestMapping("v1/notes")
-public class NoteController {
+public class NoteControllerV1 {
 
     NoteService noteService;
 
-    public NoteController(NoteService noteService) {
+    public NoteControllerV1(NoteService noteService) {
         this.noteService = noteService;
     }
 
