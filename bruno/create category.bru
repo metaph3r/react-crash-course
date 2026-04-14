@@ -1,0 +1,22 @@
+meta {
+  name: create category
+  type: http
+  seq: 5
+}
+
+post {
+  url: {{BASE_URL}}/v1/categories
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "name": "New category"
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
