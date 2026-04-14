@@ -1,6 +1,7 @@
 package de.adesso.react_crash_course.note.application;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 
@@ -32,7 +33,12 @@ public class NoteService {
 
     public NoteDto create(CreateNoteRequest createNoteRequest) {
         return NoteMapper.toDto(noteRepository.insert(Note.builder().note(createNoteRequest.getNote())
-                .categories(createNoteRequest.getCategories().stream().map(CategoryMapper::toEntity).toList())
+                .categories(createNoteRequest.getCategories() == null ? List.of()
+                        : createNoteRequest.getCategories().stream().map(CategoryMapper::toEntity).toList())
                 .build()));
+    }
+
+    public void delete(UUID id) {
+        noteRepository.deleteById(id);
     }
 }

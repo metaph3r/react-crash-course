@@ -7,10 +7,13 @@ import de.adesso.react_crash_course.note.application.dto.CreateNoteRequest;
 import de.adesso.react_crash_course.note.application.dto.NoteDto;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -33,5 +36,11 @@ public class NoteControllerV1 {
     @PostMapping
     public ResponseEntity<NoteDto> create(@RequestBody CreateNoteRequest createNoteRequest) {
         return new ResponseEntity<>(noteService.create(createNoteRequest), HttpStatus.CREATED);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable UUID id) {
+        noteService.delete(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

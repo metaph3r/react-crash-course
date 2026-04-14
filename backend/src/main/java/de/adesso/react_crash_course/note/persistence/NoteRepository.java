@@ -7,4 +7,6 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 import de.adesso.react_crash_course.note.domain.Note;
 
 public interface NoteRepository extends MongoRepository<Note, UUID> {
+
+    void deleteById(UUID id);
 }
