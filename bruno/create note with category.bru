@@ -1,0 +1,27 @@
+meta {
+  name: create note with category
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{BASE_URL}}/v1/notes
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "note": "New note 3",
+    "categories": [
+      {
+        "id": "ae6fd918-5ac8-48d0-a9bb-33c2b6f41d1b"
+      }
+    ]
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

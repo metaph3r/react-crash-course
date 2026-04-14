@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Button, ButtonGroup, Grid, Input, Paper, Stack, styled, Checkbox, List, ListItemText, ListItem, ListItemIcon, ListItemButton, IconButton } from "@mui/material";
+import { Button, ButtonGroup, Grid, Input, List, ListItemText, ListItem, IconButton } from "@mui/material";
 import DeleteIcon from '@mui/icons-material/Delete';
 
 export default function Notes() {
@@ -12,18 +12,35 @@ export default function Notes() {
 
     const [note, setNote] = useState<Note>({ id: "", note: "" });
     const [notes, setNotes] = useState<Note[]>([]);
+    const [loadingNotes, setLoadingNotes] = useState<boolean>(false);
+    const [deletingNote, setDeleting] = useState<boolean>(false);
+    const [addingNote, setAdding] = useState<boolean>(false);
 
     useEffect(() => {
+        if (deletingNote || addingNote || loadingNotes) return;
+
+        setLoadingNotes(true);
         fetch(url)
             .then(response => response.json())
-            .then(data => setNotes(data));
-    }, [setNotes])
+            .then(data => setNotes(data))
+            .finally(() => setLoadingNotes(false));
+    }, [deletingNote, addingNote, loadingNotes]);
 
-    function addNote(note: string) {
-        fetch(url, { method: "POST" })
-
-        setNotes(notes.concat({ id: "", note: note }));
+    async function handleAddNote(note: string) {
+        setAdding(true);
+        console.log("adding note: " + note);
+        await fetch(url, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ note: note }) });
+        console.log("added note: " + note);
         setNote({ id: "", note: "" });
+        setAdding(false);
+    }
+
+    async function handleDeleteNote(id: string) {
+        setDeleting(true);
+        console.log("deleting note with id: " + id);
+        await fetch(url + "/" + id, { method: "DELETE" });
+        console.log("deleted note with id: " + id);
+        setDeleting(false);
     }
 
     return (
@@ -33,7 +50,7 @@ export default function Notes() {
                     <List>
                         {notes.map(note => (
                             <ListItem key={note.id} secondaryAction={
-                                <IconButton id={note.id} edge="end" aria-label="delete" onClick={(e) => console.log("Delete note " + e.currentTarget.id)}>
+                                <IconButton id={note.id} edge="end" aria-label="delete" onClick={(e) => handleDeleteNote(e.currentTarget.id)}>
                                     <DeleteIcon />
                                 </IconButton>
                             }>
@@ -42,12 +59,12 @@ export default function Notes() {
                         ))}
                     </List>
                     <Input name="note" placeholder="Note" fullWidth={true} value={note.note} onChange={(e) => setNote({ id: e.target.id, note: e.target.value })} onKeyUp={(e) => {
-                        if (e.key == "Enter") addNote(note.note)
+                        if (e.key == "Enter") handleAddNote(note.note)
                     }} />
                 </Grid>
                 <Grid>
                     <ButtonGroup>
-                        <Button onClick={() => addNote(note.note)}>Add note</Button>
+                        <Button onClick={() => handleAddNote(note.note)}>Add note</Button>
                         <Button onClick={() => setNotes([])}>Reset notes</Button>
                     </ButtonGroup>
                 </Grid>
