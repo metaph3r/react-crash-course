@@ -6,10 +6,10 @@ import org.springframework.stereotype.Service;
 
 import de.adesso.react_crash_course.note.domain.Note;
 import de.adesso.react_crash_course.note.persistence.NoteRepository;
-import de.adesso.react_crash_course.shared.kernel.EntityMigrationService;
+import de.adesso.react_crash_course.shared.kernel.EntitySchemaMigrationService;
 
 @Service
-public class NoteSchemaMigrationService implements EntityMigrationService<Note> {
+public class NoteSchemaMigrationService implements EntitySchemaMigrationService<Note> {
 
     private final NoteRepository noteRepository;
 
