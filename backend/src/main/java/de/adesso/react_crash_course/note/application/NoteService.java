@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import de.adesso.react_crash_course.note.application.dto.CreateNoteRequest;
 import de.adesso.react_crash_course.note.application.dto.NoteDto;
+import de.adesso.react_crash_course.note.application.mapper.CategoryMapper;
 import de.adesso.react_crash_course.note.application.mapper.NoteMapper;
 import de.adesso.react_crash_course.note.domain.Note;
 import de.adesso.react_crash_course.note.persistence.NoteRepository;
@@ -30,6 +31,8 @@ public class NoteService {
     }
 
     public NoteDto create(CreateNoteRequest createNoteRequest) {
-        return NoteMapper.toDto(noteRepository.insert(Note.builder().note(createNoteRequest.getNote()).build()));
+        return NoteMapper.toDto(noteRepository.insert(Note.builder().note(createNoteRequest.getNote())
+                .categories(createNoteRequest.getCategories().stream().map(CategoryMapper::toEntity).toList())
+                .build()));
     }
 }
