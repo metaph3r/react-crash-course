@@ -9,7 +9,7 @@ import de.adesso.react_crash_course.note.domain.Note;
 public final class NoteMapper {
 
     public static Note toEntity(NoteDto noteDto) {
-        return new Note(noteDto.getId(), noteDto.getNote(),
+        return new Note(noteDto.getId(), Note.CURRENT_SCHEMA_VERSION, noteDto.getNote(),
                 noteDto.getCategories().stream().map(CategoryMapper::toEntity).toList());
     }
 

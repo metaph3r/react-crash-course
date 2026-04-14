@@ -5,6 +5,7 @@ import java.util.UUID;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 
 import lombok.Data;
 
@@ -17,13 +18,14 @@ public class Note {
     @Id
     private final UUID id;
 
-    private int schemaVersion;
+    @Field
+    private final int schemaVersion;
+    @Field
     private final String note;
+    @Field
     private final List<Category> categories;
 
     public static Note create(String text) {
-        var note = new Note(UUID.randomUUID(), text, List.of());
-        note.setSchemaVersion(CURRENT_SCHEMA_VERSION);
-        return note;
+        return new Note(UUID.randomUUID(), CURRENT_SCHEMA_VERSION, text, List.of());
     }
 }
