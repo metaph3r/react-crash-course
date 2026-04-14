@@ -1,21 +1,26 @@
 package de.adesso.react_crash_course.note.application.mapper;
 
-import java.util.List;
+import org.springframework.stereotype.Component;
 
 import de.adesso.react_crash_course.note.application.dto.NoteDto;
-import de.adesso.react_crash_course.note.domain.Category;
 import de.adesso.react_crash_course.note.domain.Note;
 
+@Component
 public final class NoteMapper {
 
     public static Note toEntity(NoteDto noteDto) {
-        return new Note(noteDto.getId(), Note.CURRENT_SCHEMA_VERSION, noteDto.getNote(),
-                noteDto.getCategories().stream().map(CategoryMapper::toEntity).toList());
+        return Note.builder()
+                .id(noteDto.getId())
+                .note(noteDto.getNote())
+                .categories(noteDto.getCategories().stream().map(CategoryMapper::toEntity).toList())
+                .build();
     }
 
     public static NoteDto toDto(Note note) {
-        var categories = note.getCategories() == null ? List.<Category>of() : note.getCategories();
-        return new NoteDto(note.getId(), note.getNote(),
-                categories.stream().map(CategoryMapper::toDto).toList());
+        return NoteDto.builder()
+                .id(note.getId())
+                .note(note.getNote())
+                .categories(note.getCategories().stream().map(CategoryMapper::toDto).toList())
+                .build();
     }
 }

@@ -4,28 +4,30 @@ import java.util.List;
 import java.util.UUID;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
+import lombok.Builder;
 import lombok.Data;
 
 @Data
+@Builder
 @Document(collection = "notes")
 public class Note {
 
     public static final int CURRENT_SCHEMA_VERSION = 1;
 
     @Id
-    private final UUID id;
+    @Builder.Default
+    private final UUID id = UUID.randomUUID();
 
     @Field
-    private final int schemaVersion;
+    @Builder.Default
+    private final int schemaVersion = CURRENT_SCHEMA_VERSION;
     @Field
     private final String note;
-    @Field
-    private final List<Category> categories;
-
-    public static Note create(String text) {
-        return new Note(UUID.randomUUID(), CURRENT_SCHEMA_VERSION, text, List.of());
-    }
+    @DBRef
+    @Builder.Default
+    private final List<Category> categories = List.of();
 }

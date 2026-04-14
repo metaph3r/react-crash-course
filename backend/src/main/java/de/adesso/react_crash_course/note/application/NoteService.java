@@ -13,24 +13,23 @@ import de.adesso.react_crash_course.note.persistence.NoteRepository;
 @Service
 public class NoteService {
 
-    private NoteRepository noteRepository;
-    private NoteMigrationService noteMigrationService;
+    private final NoteRepository noteRepository;
+    private final NoteSchemaMigrationService noteSchemaMigrationService;
 
-    public NoteService(NoteRepository noteRepository, NoteMigrationService noteMigrationService) {
+    public NoteService(NoteRepository noteRepository, NoteSchemaMigrationService noteSchemaMigrationService) {
         this.noteRepository = noteRepository;
-        this.noteMigrationService = noteMigrationService;
+        this.noteSchemaMigrationService = noteSchemaMigrationService;
     }
 
     public List<NoteDto> findAll() {
         return noteRepository.findAll().stream().map(note -> {
-            if (noteMigrationService.isMigrationRequired(note)) {
-                note = noteMigrationService.migrate(note);
-            }
-            return NoteMapper.toDto(note);
-        }).toList();
+            if (!noteSchemaMigrationService.isMigrationRequired(note))
+                return note;
+            return noteSchemaMigrationService.migrate(note);
+        }).map(NoteMapper::toDto).toList();
     }
 
     public NoteDto create(CreateNoteRequest createNoteRequest) {
-        return NoteMapper.toDto(noteRepository.insert(Note.create(createNoteRequest.getNote())));
+        return NoteMapper.toDto(noteRepository.insert(Note.builder().note(createNoteRequest.getNote()).build()));
     }
 }

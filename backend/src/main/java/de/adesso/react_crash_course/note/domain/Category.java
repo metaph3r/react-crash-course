@@ -4,22 +4,25 @@ import java.util.UUID;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 
+import lombok.Builder;
 import lombok.Data;
 
 @Data
+@Builder
 @Document(collection = "categories")
 public class Category {
 
-    public static final String DEFAULT_CATEGORY_STRING = "Default";
+    public static final int CURRENT_SCHEMA_VERSION = 1;
 
     @Id
-    private final UUID id;
+    @Builder.Default
+    private final UUID id = UUID.randomUUID();
 
-    private int schemaVersion = 1;
+    @Field
+    @Builder.Default
+    private final int schemaVersion = CURRENT_SCHEMA_VERSION;
+    @Field
     private final String name;
-
-    public static Category create(String name) {
-        return new Category(UUID.randomUUID(), name);
-    }
 }
